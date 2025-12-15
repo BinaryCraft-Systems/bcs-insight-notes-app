@@ -1,0 +1,1 @@
+This folder includes global settings and path constants
