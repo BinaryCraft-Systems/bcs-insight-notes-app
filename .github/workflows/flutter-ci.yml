@@ -24,9 +24,19 @@ jobs:
         id: get-pr-email
         # run from repo root so git history is available
         working-directory: ..
+        env:
+          PR_LOGIN: ${{ github.event.pull_request.user.login }}
         run: |
-          # get the author email of the latest commit
-          PR_EMAIL=$(git log -1 --pretty=format:'%ae') || PR_EMAIL=""
+          set -euo pipefail
+          PR_EMAIL=""
+          # try to read the latest commit author email
+          if git rev-parse --verify HEAD >/dev/null 2>&1; then
+            PR_EMAIL=$(git log -1 --pretty=format:'%ae' 2>/dev/null || true)
+          fi
+          # fall back to GitHub noreply address using PR author's login when commit email is empty
+          if [ -z "$PR_EMAIL" ]; then
+            PR_EMAIL="${PR_LOGIN}@users.noreply.github.com"
+          fi
           echo "pr_email=$PR_EMAIL" >> $GITHUB_OUTPUT
 
       - name: Set up Flutter
@@ -105,7 +115,6 @@ jobs:
           to: ${{ steps.get-pr-email.outputs.pr_email }}, binarycraftsystems@gmail.com
           cc: github@binarycraftsystems.com 
           from: "BinaryCraft Systems <github@binarycraftsystems.com>"
-          content_type: text/plain
           attachments: build-report.md
           body: |
             Repository: ${{ github.repository }}
