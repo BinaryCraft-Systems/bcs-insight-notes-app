@@ -10,6 +10,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: bcs_insight_notes
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -32,6 +36,7 @@ jobs:
         run: flutter analyze
 
       - name: Run tests
+        working-directory: ..
         run: flutter test
 
       - name: Build APK
