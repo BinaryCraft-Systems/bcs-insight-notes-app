@@ -22,6 +22,7 @@ jobs:
           cache: true
 
       - name: Install dependencies
+        working-directory: bcs_insight_notes
         run: flutter pub get
 
       - name: Check formatting
