@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import '../../constants/app_colors.dart';
+import '../../constants/app_media_querry.dart';
 
 class InEndDrawer extends StatelessWidget {
   final Color? bgColor;
@@ -27,7 +28,7 @@ class InEndDrawer extends StatelessWidget {
       child: ListView(
         children: [
           Container(
-            height: 72,
+            height: context.h * 0.05,
             padding: EdgeInsets.symmetric(horizontal: 16),
             alignment: Alignment.centerLeft,
             child: Text(
