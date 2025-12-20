@@ -1,7 +1,7 @@
 import 'package:bcs_insight_notes/src/core/constants/app_media_querry.dart';
 import 'package:bcs_insight_notes/src/core/shared_widgets/buttons/circular_tap_button.dart';
 import 'package:flutter/material.dart';
-import '../../constants/app_colors.dart';
+// removed unused import: '../../constants/app_colors.dart'
 
 class InAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
