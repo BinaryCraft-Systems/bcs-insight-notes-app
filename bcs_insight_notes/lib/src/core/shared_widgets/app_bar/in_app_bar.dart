@@ -1,3 +1,5 @@
+import 'package:bcs_insight_notes/src/core/constants/app_media_querry.dart';
+import 'package:bcs_insight_notes/src/core/shared_widgets/buttons/circular_tap_button.dart';
 import 'package:flutter/material.dart';
 import '../../constants/app_colors.dart';
 
@@ -29,15 +31,12 @@ class InAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(title),
       actions: [
         Padding(
-          padding: EdgeInsets.only(right: paddingRight ?? 12),
-          child: IconButton(
-            onPressed: onPressed,
-            icon: Icon(iconData ?? Icons.menu),
-            style: IconButton.styleFrom(
-              backgroundColor: iconBgColor ?? AppColors.bgSecondaryColor,
-              foregroundColor: iconFgColor ?? AppColors.bgColor,
-              shape: shape ?? CircleBorder(),
-            ),
+          padding: EdgeInsets.only(right: paddingRight ?? context.w * 0.03),
+          child: CircularTapButton(
+          onPressed: onPressed,
+            iconData: iconData,
+            iconBgColor: iconBgColor,
+            iconFgColor: iconFgColor,
           ),
         ),
       ],
