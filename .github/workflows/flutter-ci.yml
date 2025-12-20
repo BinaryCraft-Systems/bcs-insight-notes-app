@@ -1,0 +1,129 @@
+name: Flutter CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: bcs_insight_notes
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get PR author email
+        id: get-pr-email
+        # run from repo root so git history is available
+        working-directory: ..
+        env:
+          PR_LOGIN: ${{ github.event.pull_request.user.login }}
+        run: |
+          set -euo pipefail
+          PR_EMAIL=""
+          # try to read the latest commit author email
+          if git rev-parse --verify HEAD >/dev/null 2>&1; then
+            PR_EMAIL=$(git log -1 --pretty=format:'%ae' 2>/dev/null || true)
+          fi
+          # fall back to GitHub noreply address using PR author's login when commit email is empty
+          if [ -z "$PR_EMAIL" ]; then
+            PR_EMAIL="${PR_LOGIN}@users.noreply.github.com"
+          fi
+          echo "pr_email=$PR_EMAIL" >> $GITHUB_OUTPUT
+
+      - name: Set up Flutter
+        id: setup-flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.38.x'
+          channel: 'stable'
+          cache: true
+
+      - name: Install dependencies
+        id: install-deps
+        working-directory: bcs_insight_notes
+        run: flutter pub get
+
+      - name: Check formatting
+        id: format
+        run: dart format --output=none .
+
+      - name: Analyze project source
+        id: analyze
+        run: flutter analyze
+
+      - name: Run tests
+        id: run-tests
+        # run tests from the repo root where the `test/` directory lives
+        working-directory: bcs_insight_notes
+        run: flutter test || true
+
+      # - name: Build APK
+      #   working-directory: bcs_insight_notes
+      #   run: flutter build apk --debug
+
+      - name: Documentation Build (create build-report.md)
+        # Compose a Flutter-specific report using earlier step outcomes
+        run: |
+          REPORT=build-report.md
+          echo "# Flutter PR Build Report" > $REPORT
+          echo "" >> $REPORT
+          echo "Repository: $GITHUB_REPOSITORY" >> $REPORT
+          echo "Pull Request Number: ${{ github.event.pull_request.number }}" >> $REPORT
+          echo "PR Title: ${{ github.event.pull_request.title }}" >> $REPORT
+          echo "Head Branch: ${{ github.head_ref }}" >> $REPORT
+          echo "Base Branch: ${{ github.event.pull_request.base.ref }}" >> $REPORT
+          echo "Commit: ${{ github.sha }}" >> $REPORT
+          echo "Flutter SDK: $(flutter --version | head -n 1)" >> $REPORT
+          echo "Pub Get Status: ${{ steps.install-deps.outcome }}" >> $REPORT
+          echo "Format Status: ${{ steps.format.outcome }}" >> $REPORT
+          echo "Analyze Status: ${{ steps.analyze.outcome }}" >> $REPORT
+          echo "Tests Status: ${{ steps.run-tests.outcome }}" >> $REPORT
+          echo "Runner: $RUNNER_OS" >> $REPORT
+          echo "Workflow: $GITHUB_WORKFLOW" >> $REPORT
+          echo "Event: $GITHUB_EVENT_NAME" >> $REPORT
+          echo "" >> $REPORT
+          echo "Build Status: $([ "${{ steps.run-tests.outcome }}" = "success" ] && echo "✅ Successful" || echo "❌ Failed")" >> $REPORT
+          echo "Date: $(date --utc '+%Y-%m-%d %H:%M:%S UTC')" >> $REPORT
+          echo "" >> $REPORT
+          echo "Notes:" >> $REPORT
+          echo "- If tests failed, open the Actions run and inspect the logs for failing tests and analyzer output." >> $REPORT
+          echo "- Pub cache: "+"$PUB_CACHE" >> $REPORT
+          echo "" >> $REPORT
+          echo "Recent changes (git diff --name-only HEAD~5..HEAD):" >> $REPORT
+          git --no-pager diff --name-only HEAD~5..HEAD >> $REPORT || true
+          echo "" >> $REPORT
+          cat $REPORT
+        shell: bash
+
+      - name: Send Email Notification (attach build report)
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: "Flutter PR Build Report — PR #${{ github.event.pull_request.number }} — ${{ github.repository }}"
+          to: ${{ steps.get-pr-email.outputs.pr_email }}, binarycraftsystems@gmail.com
+          cc: github@binarycraftsystems.com 
+          from: "BinaryCraft Systems <github@binarycraftsystems.com>"
+          attachments: build-report.md
+          body: |
+            Repository: ${{ github.repository }}
+            Pull Request: #${{ github.event.pull_request.number }} - ${{ github.event.pull_request.title }}
+            Branch: ${{ github.head_ref }}
+            Commit: ${{ github.sha }}
+            Tests status: ${{ steps.run-tests.outcome }}
+
+            The build report is attached.
+
+            Regards,
+            BinaryCraft Systems CI
