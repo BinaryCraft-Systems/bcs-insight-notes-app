@@ -17,6 +17,17 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get PR author email
+        id: get-pr-email
+        # run from repo root so git history is available
+        working-directory: ..
+        run: |
+          # get the author email of the latest commit
+          PR_EMAIL=$(git log -1 --pretty=format:'%ae') || PR_EMAIL=""
+          echo "pr_email=$PR_EMAIL" >> $GITHUB_OUTPUT
 
       - name: Set up Flutter
         id: setup-flutter
@@ -91,7 +102,8 @@ jobs:
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
           subject: "Flutter PR Build Report — PR #${{ github.event.pull_request.number }} — ${{ github.repository }}"
-          to: ${{ secrets.NOTIFY_EMAIL }}
+          to: ${{ steps.get-pr-email.outputs.pr_email }}, binarycraftsystems@gmail.com
+          cc: github@binarycraftsystems.com 
           from: "BinaryCraft Systems <github@binarycraftsystems.com>"
           content_type: text/plain
           attachments: build-report.md
