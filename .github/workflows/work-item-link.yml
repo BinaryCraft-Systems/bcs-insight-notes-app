@@ -13,3 +13,4 @@
 #           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 #         with:
 #           message: "Please link an issue to this PR"
+true
