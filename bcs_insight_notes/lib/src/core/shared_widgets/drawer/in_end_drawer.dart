@@ -36,13 +36,13 @@ class InEndDrawer extends StatelessWidget {
               style: TextStyle(
                 fontSize: 24,
                 letterSpacing: 2,
-                color: AppColors.bgColor,
+                color: AppColors.bgPrimaryColor,
               ),
             ),
           ),
           Divider(
             thickness: 2,
-            color: AppColors.bgColor,
+            color: AppColors.bgPrimaryColor,
           )
         ],
       ),

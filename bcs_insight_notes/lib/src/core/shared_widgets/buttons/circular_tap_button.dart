@@ -22,7 +22,7 @@ class CircularTapButton extends StatelessWidget {
       icon: Icon(iconData),
       style: IconButton.styleFrom(
         backgroundColor: iconBgColor ?? AppColors.bgSecondaryColor,
-        foregroundColor: iconFgColor ?? AppColors.bgColor,
+        foregroundColor: iconFgColor ?? AppColors.bgPrimaryColor,
         shape: CircleBorder(),
       ),
     );

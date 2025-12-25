@@ -18,7 +18,7 @@ class FilterButton extends StatelessWidget {
       elevation: 2,
       shadowColor: AppColors.bgSecondaryColor.withValues(alpha: 0.5),
       borderRadius: BorderRadius.circular(25),
-      color: isSelected ? AppColors.primarySelectionColor : AppColors.bgColor,
+      color: isSelected ? AppColors.primarySelectionColor : AppColors.bgPrimaryColor,
       child: TextButton(
         onPressed: onTap,
         style: ButtonStyle(
@@ -27,7 +27,7 @@ class FilterButton extends StatelessWidget {
           ),
           backgroundColor: WidgetStateProperty.all(Colors.transparent),
           foregroundColor: WidgetStateProperty.all(
-            isSelected ? AppColors.bgColor : AppColors.bgSecondaryColor,
+            isSelected ? AppColors.bgPrimaryColor : AppColors.bgSecondaryColor,
           ),
           shape: WidgetStateProperty.all(
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(25)),
