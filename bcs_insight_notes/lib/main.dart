@@ -1,6 +1,7 @@
 import 'package:bcs_insight_notes/src/core/constants/app_colors.dart';
 import 'package:bcs_insight_notes/src/core/constants/app_fonts.dart';
 import 'package:bcs_insight_notes/src/core/shared_widgets/app_bar/in_app_bar.dart';
+import 'package:bcs_insight_notes/src/pages/homepage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -74,100 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
         iconBgColor: AppColors.buttonTransparentColor,
         iconFgColor: AppColors.bgSecondaryColor,
         onPressed: () {},
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(100),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            color: AppColors.appBarBackgroundColor,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Let\'s note your thoughts...',
-                  style: TextStyle(
-                    fontFamily: AppFonts.oswald,
-                    fontSize: 24,
-                    color: AppColors.bgSecondaryColor,
-                    letterSpacing: 2.0
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.bgSecondaryColor,
-                        foregroundColor: AppColors.bgColor,
-                        textStyle: TextStyle(
-                          fontFamily: AppFonts.oswald,
-                          fontSize: 16,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero,
-                        ),
-                      ),
-                      child: const Text('All'),
-                    ),
-                    const SizedBox(width: 8),
-                    OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColors.bgSecondaryColor,
-                        textStyle: TextStyle(
-                          fontFamily: AppFonts.oswald,
-                          fontSize: 16,
-                        ),
-                        side: BorderSide(
-                          color: AppColors.bgSecondaryColor,
-                          width: 1,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero,
-                        ),
-                      ),
-                      child: const Text('Notes'),
-                    ),
-                    const SizedBox(width: 8),
-                    OutlinedButton(
-                      onPressed: () {},
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: AppColors.bgSecondaryColor,
-                        textStyle: TextStyle(
-                          fontFamily: AppFonts.oswald,
-                          fontSize: 16,
-                        ),
-                        side: BorderSide(
-                          color: AppColors.bgSecondaryColor,
-                          width: 1,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.zero,
-                        ),
-                      ),
-                      child: const Text('List'),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          mainAxisAlignment: .center,
-          children: [
-            Text(
-              'Let\'s get started with Insight Notes!',
-              style: TextStyle(fontFamily: AppFonts.oswald, fontSize: 18),
-            ),
-          ],
-        ),
-      ),
+      body: Homepage(),
     );
   }
 }

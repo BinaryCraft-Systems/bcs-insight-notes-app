@@ -18,7 +18,7 @@ class InSearchBar extends StatelessWidget {
     return Container(
       width: context.w * 0.8,
       decoration: BoxDecoration(
-        color: AppColors.bgColor,
+        color: AppColors.bgPrimaryColor,
         borderRadius: BorderRadius.circular(25),
         boxShadow: [
           BoxShadow(

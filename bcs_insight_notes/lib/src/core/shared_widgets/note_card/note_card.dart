@@ -45,7 +45,7 @@ class NoteCard extends StatelessWidget {
           width: size.width,
           height: size.height,
           decoration: BoxDecoration(
-            color: bgColor ?? AppColors.bgColor,
+            color: bgColor ?? AppColors.bgPrimaryColor,
             borderRadius: BorderRadius.circular(35),
             boxShadow: [
               BoxShadow(
