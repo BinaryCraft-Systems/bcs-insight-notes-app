@@ -45,7 +45,6 @@ class GoRouterRefreshStream extends ChangeNotifier {
 
   @override
   void dispose() {
-    // TODO: implement dispose
     _subscription.cancel();
     super.dispose();
   }
