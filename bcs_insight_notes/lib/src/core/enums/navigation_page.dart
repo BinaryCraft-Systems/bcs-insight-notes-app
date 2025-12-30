@@ -1,0 +1,4 @@
+enum NavigationPage {
+  home,
+  createNote,
+}

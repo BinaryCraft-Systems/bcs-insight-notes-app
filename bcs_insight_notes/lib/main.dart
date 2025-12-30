@@ -1,9 +1,12 @@
 import 'package:bcs_insight_notes/src/core/constants/app_colors.dart';
 import 'package:bcs_insight_notes/src/core/constants/app_fonts.dart';
+import 'package:bcs_insight_notes/src/core/navigation/navigation_cubit.dart';
+import 'package:bcs_insight_notes/src/core/router/app_router.dart';
 import 'package:bcs_insight_notes/src/core/shared_widgets/app_bar/in_app_bar.dart';
 import 'package:bcs_insight_notes/src/core/shared_widgets/drawer/in_end_drawer.dart';
 import 'package:bcs_insight_notes/src/pages/homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,28 +18,26 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'InsightNotes',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<NavigationCubit>(
+          create: (_) => NavigationCubit())
+      ],
+      child: Builder(
+        builder: (context) {
+        final navigationCubit = context.read<NavigationCubit>();
+
+        return MaterialApp.router(
+          title: 'InsightNotes',
+          debugShowCheckedModeBanner: false,
+          routerConfig: createRouter(navigationCubit),
+          theme: ThemeData(
+            colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+            ),
+          );
+        }
       ),
-      home: const MyHomePage(title: 'Insight Notes'),
     );
   }
 }
