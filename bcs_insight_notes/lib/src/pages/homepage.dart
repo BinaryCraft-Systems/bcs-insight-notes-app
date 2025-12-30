@@ -1,10 +1,12 @@
 import 'package:bcs_insight_notes/src/core/constants/app_colors.dart';
 import 'package:bcs_insight_notes/src/core/constants/app_fonts.dart';
 import 'package:bcs_insight_notes/src/core/enums/note_types.dart';
+import 'package:bcs_insight_notes/src/core/navigation/navigation_cubit.dart';
 import 'package:bcs_insight_notes/src/core/shared_widgets/buttons/in_outlined_button.dart';
 // import 'package:bcs_insight_notes/src/core/shared_widgets/menu_bar/in_menu_bar.dart';
 import 'package:bcs_insight_notes/src/core/shared_widgets/note_card/note_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Homepage extends StatefulWidget {
   const Homepage({super.key});
@@ -86,7 +88,10 @@ class _HomepageState extends State<Homepage> {
                               NoteCard(noteType: NoteTypes.note),
                               if (hasSecond) ...[
                                 const SizedBox(width: 16),
-                                NoteCard(noteType: NoteTypes.note),
+                                NoteCard(
+                                  noteType: NoteTypes.note,
+                                  onTap: context.read<NavigationCubit>().goToCreateNote,
+                                ),
                               ],
                             ],
                           );
