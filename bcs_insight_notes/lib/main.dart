@@ -1,6 +1,7 @@
 import 'package:bcs_insight_notes/src/core/constants/app_colors.dart';
 import 'package:bcs_insight_notes/src/core/constants/app_fonts.dart';
 import 'package:bcs_insight_notes/src/core/shared_widgets/app_bar/in_app_bar.dart';
+import 'package:bcs_insight_notes/src/core/shared_widgets/drawer/in_end_drawer.dart';
 import 'package:bcs_insight_notes/src/pages/homepage.dart';
 import 'package:flutter/material.dart';
 
@@ -59,6 +60,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -68,13 +70,17 @@ class _MyHomePageState extends State<MyHomePage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
+      key: _scaffoldKey,
+      endDrawer: InEndDrawer(),
       appBar: InAppBar(
         title: 'InsightNotes',
         bgColor: AppColors.appBarBackgroundColor,
         fontFamily: AppFonts.anton,
         iconBgColor: AppColors.buttonTransparentColor,
         iconFgColor: AppColors.bgSecondaryColor,
-        onPressed: () {},
+        onPressed: () {
+          _scaffoldKey.currentState?.openEndDrawer();
+        },
       ),
       body: Homepage(),
     );

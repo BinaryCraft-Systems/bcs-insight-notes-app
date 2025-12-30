@@ -45,11 +45,11 @@ class NoteCard extends StatelessWidget {
           width: size.width,
           height: size.height,
           decoration: BoxDecoration(
-            color: bgColor ?? AppColors.bgPrimaryColor,
+            color: bgColor ?? AppColors.primarySelectionColor,
             borderRadius: BorderRadius.circular(35),
             boxShadow: [
               BoxShadow(
-                color: sdColor.withValues(alpha: 0.3),
+                color: sdColor.withValues(alpha: 0.1),
                 blurRadius: blurRadius ?? 10,
                 spreadRadius: spreadRadius ?? 2,
                 offset: offset ?? Offset(0, 4),

@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 // ignore: non_constant_identifier_names
 OutlinedButton InOutlinedButton({
   required String label,
+  required bool isSelected,
   required void Function() onPressed,
   Color? foregroundColor,
+  Color? backgroundColor,
   double? fontSize,
   double? borderRadiusSize,
   double? borderWidth,
@@ -14,12 +16,18 @@ OutlinedButton InOutlinedButton({
   return OutlinedButton(
     onPressed: onPressed,
     style: OutlinedButton.styleFrom(
-      foregroundColor: foregroundColor ?? AppColors.bgSecondaryColor,
+      foregroundColor: isSelected ? foregroundColor ?? AppColors.bgPrimaryColor : AppColors.bgSecondaryColor,
+      backgroundColor: isSelected
+          ? backgroundColor ?? AppColors.bgSecondaryColor
+          : AppColors.buttonTransparentColor,
       textStyle: TextStyle(
         fontSize: fontSize ?? 16,
         fontFamily: fontFamily ?? 'Oswald',
       ),
-      side: BorderSide(color: AppColors.bgSecondaryColor, width: borderWidth ?? 1),
+      side: BorderSide(
+        color: AppColors.bgSecondaryColor,
+        width: borderWidth ?? 1,
+      ),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(borderRadiusSize ?? 0),
       ),
