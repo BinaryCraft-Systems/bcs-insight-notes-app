@@ -16,6 +16,7 @@ class CreateNotePage extends StatefulWidget {
 class _CreateNotePageState extends State<CreateNotePage> {
   @override
   Widget build(BuildContext context) {
+    final int? selectedIndex = context.read<NavigationCubit>().selectedNoteIndex;
     return Scaffold(
       appBar: InAppBar(
           title: "Create Note",
@@ -27,6 +28,12 @@ class _CreateNotePageState extends State<CreateNotePage> {
           }
       ),
       backgroundColor: Colors.blue,
+      body: Center(
+        child: Text(
+          selectedIndex != null ? 'Note index: $selectedIndex' : 'Create new note',
+          style: const TextStyle(fontSize: 20, color: Colors.white),
+        ),
+      ),
     );
   }
 }

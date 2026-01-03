@@ -44,7 +44,7 @@ class _HomepageState extends State<Homepage> {
               Row(
                 children: [
                   InOutlinedButton(
-                    label: 'Notes',
+                    label: 'All',
                     isSelected: _selectedIndex == 0,
                     onPressed: () => setState(() => _selectedIndex = 0),
                   ),
@@ -67,45 +67,25 @@ class _HomepageState extends State<Homepage> {
         ),
         const SizedBox(height: 8),
         Expanded(
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    // Render rows of NoteCards with maximum 2 per row
-                    Builder(builder: (context) {
-                      final int rows = (noteCardCount + 1) ~/ 2;
-                      return Column(
-                        children: List.generate(rows, (r) {
-                          final int firstIndex = r * 2;
-                          final bool hasSecond = firstIndex + 1 < noteCardCount;
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            // crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              NoteCard(noteType: NoteTypes.note),
-                              if (hasSecond) ...[
-                                const SizedBox(width: 16),
-                                NoteCard(
-                                  noteType: NoteTypes.note,
-                                  onTap: context.read<NavigationCubit>().goToCreateNote,
-                                ),
-                              ],
-                            ],
-                          );
-                        }),
-                      );
-                    }),
-                  ],
-                ),
-                // Text(
-                //   'Let\'s get started with Insight Notes!',
-                //   style: TextStyle(fontFamily: AppFonts.oswald, fontSize: 18),
-                // ),
-                // InMenuBar(icons: [Icons.note, Icons.check_box, Icons.mic]),
-              ],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 16.0,
+              vertical: 8.0,
+            ),
+            child: GridView.builder(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                childAspectRatio: 3 / 4,
+              ),
+              itemCount: noteCardCount,
+              itemBuilder: (context, index) {
+                return NoteCard(
+                  noteType: NoteTypes.note,
+                  onTap: () => context.read<NavigationCubit>().goToCreateNote(index: index),
+                );
+              },
             ),
           ),
         ),
