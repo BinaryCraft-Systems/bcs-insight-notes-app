@@ -4,7 +4,16 @@ import '../enums/navigation_page.dart';
 class NavigationCubit extends Cubit<NavigationPage> {
   NavigationCubit() : super(NavigationPage.home);
 
-  void goHome() => emit(NavigationPage.home);
-  void goToCreateNote() => emit(NavigationPage.createNote);
+  int? selectedNoteIndex;
+
+  void goHome() {
+    selectedNoteIndex = null;
+    emit(NavigationPage.home);
+  }
+
+  void goToCreateNote({int? index}) {
+    selectedNoteIndex = index;
+    emit(NavigationPage.createNote);
+  }
 
 }
