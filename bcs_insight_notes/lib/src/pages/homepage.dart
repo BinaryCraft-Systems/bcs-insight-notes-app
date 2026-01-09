@@ -118,7 +118,7 @@ class _HomepageState extends State<Homepage>
                         style: const TextStyle(color: AppColors.searchTextColor, fontFamily: AppFonts.oswald),
                         cursorColor: AppColors.searchTextColor,
                         decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.search, color: AppColors.searchIconColor, size: 25),
+                          prefixIcon: Icon(Icons.search, color: AppColors.searchIconColor, size: 30),
                           hintText: 'Search here...',
                           hintStyle: TextStyle(color: AppColors.searchPlaceholderColor),
                           border: InputBorder.none,
